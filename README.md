@@ -1,5 +1,7 @@
 # Ansible Role: Stripper:Source
 
+[![builds.sr.ht status](https://builds.sr.ht/~tleguern/ansible-role-stripper-source.svg)](https://builds.sr.ht/~tleguern/ansible-role-stripper-source?)
+
 An Ansible role that installs and configures the Stripper:Source Metamod plugin.
 
 Automatic testing is provided using molecule's delegated driver and <https://builds.sr.ht>.
