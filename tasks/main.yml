@@ -1,0 +1,87 @@
+---
+- name: Check if Stripper:Source is installed.
+  stat:
+    path: "{{ metamod_source_install_path }}/addons/stripper/VERSION"
+  register: __stripper_source_exists
+
+- name: Check the currently installed version of Stripper:Source.
+  command:
+    cmd: grep -qF {{ stripper_source_version }} "{{ metamod_source_install_path }}/addons/stripper/VERSION"
+  register: __stripper_source_current_version
+  changed_when: no
+  failed_when: no
+  when: __stripper_source_exists.stat.exists
+
+- name: Remove the previous version.
+  file:
+    path: "{{ metamod_source_install_path }}/{{ item }}"
+    state: absent
+  loop:
+    - addons/metamod/stripper.vdf
+    - addons/stripper/
+  when:
+    - __stripper_source_exists.stat.exists
+    - __stripper_source_current_version.rc != 0
+
+- name: Install Stripper:Source
+  when: 'not __stripper_source_exists.stat.exists or __stripper_source_current_version.rc != 0'
+  block:
+    - name: Download the requested version.
+      become: no
+      get_url:
+        url: "{{ stripper_source_url }}/{{ stripper_source_target }}"
+        dest: /tmp
+        mode: 0644
+
+    - name: Extract the downloaded file.
+      unarchive:
+        remote_src: yes
+        src: "/tmp/{{ stripper_source_target }}"
+        dest: "{{ metamod_source_install_path }}/"
+        owner: "{{ steamcmd_user }}"
+        group: "{{ steamcmd_user }}"
+
+    - name: Remove the archive.
+      become: no
+      file:
+        path: "/tmp/{{ stripper_source_target }}"
+        state: absent
+
+    - name: Write the current stripper_source version.
+      copy:
+        dest: "{{ metamod_source_install_path }}/addons/stripper/VERSION"
+        content: "{{ stripper_source_version }}"
+        owner: "{{ steamcmd_user }}"
+        group: "{{ steamcmd_user }}"
+        mode: 0644
+      notify: "Restart source games"
+
+- name: Ensure the global_filters.cfg configuration file is installed.
+  template:
+    src: global_filters.cfg.j2
+    dest: "{{ metamod_source_install_path }}/addons/stripper/global_filters.cfg"
+    owner: "{{ steamcmd_user }}"
+    group: "{{ steamcmd_user }}"
+    mode: 0644
+
+- block:
+    - name: Ensure the map specifc configuration files are installed.
+      template:
+        src: maps.cfg.j2
+        dest: "{{ metamod_source_install_path }}/addons/stripper/maps/{{ item.name }}.cfg"
+        owner: "{{ steamcmd_user }}"
+        group: "{{ steamcmd_user }}"
+        mode: 0644
+      loop: "{{ stripper_source_maps_cfg }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when: 'item.state is not defined or item.state != "absent"'
+
+    - name: Ensure unwanted map specifc configuration files are deleted.
+      file:
+        path: "{{ metamod_source_install_path }}/addons/stripper/maps/{{ item.name }}.cfg "
+        state: absent
+      loop: "{{ stripper_source_maps_cfg }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when: 'item.state is defined and item.state == "absent"'

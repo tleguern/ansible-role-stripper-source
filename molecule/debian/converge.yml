@@ -1,0 +1,17 @@
+---
+- name: Converge
+  hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+  vars:
+    cstrike_source_ip: 127.0.0.1
+    cstrike_source_server_cfg: |
+      hostname "SourceHut test Counter-Strike Server"
+      rcon_password srht
+    metamod_source_install_path: /home/steam/cstrike-source/cstrike
+  roles:
+    - role: "tleguern.steamcmd"
+    - role: "tleguern.cstrike_source"
+    - role: "tleguern.metamod_source"
+    - role: "ansible-role-stripper-source"

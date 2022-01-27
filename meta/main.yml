@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  role_name: stripper_source
+  author: Tristan Le Guern
+  description: Configure the Stripper:Source Sourcemod plugin
+  company: Gwern
+  license: ISC
+  min_ansible_version: 2.9
+  platforms:
+    - name: Ubuntu
+    - name: Debian
+  galaxy_tags:
+    - strippersource
+    - stripper
+    - source
+    - bailopan
+dependencies: []

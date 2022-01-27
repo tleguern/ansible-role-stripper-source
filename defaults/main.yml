@@ -1,0 +1,13 @@
+---
+stripper_source_url: http://www.bailopan.net/stripper/files
+stripper_source_version: "1.2.2"
+stripper_source_target: "stripper-{{ stripper_source_version }}-linux.tar.gz"
+
+#stripper_source_global_filters:
+#stripper_source_maps_cfg:
+#  - name: de_dust.cfg
+#    config: |
+#      filter:
+#      ...
+#      add:
+#      ...
