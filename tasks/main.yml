@@ -63,8 +63,10 @@
     owner: "{{ steamcmd_user }}"
     group: "{{ steamcmd_user }}"
     mode: 0644
+  notify: "Restart source games"
 
 - when: stripper_source_maps_cfg
+  notify: "Restart source games"
   block:
     - name: Ensure the map specifc configuration files are installed.
       template:
