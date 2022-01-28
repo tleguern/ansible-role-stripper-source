@@ -64,7 +64,7 @@
     group: "{{ steamcmd_user }}"
     mode: 0644
 
-- when: stripper_source_maps_cfg
+- when: stripper_source_maps_cfg is defined
   block:
     - name: Ensure the map specifc configuration files are installed.
       template:
