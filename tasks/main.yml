@@ -64,7 +64,8 @@
     group: "{{ steamcmd_user }}"
     mode: 0644
 
-- block:
+- when: stripper_source_maps_cfg
+  block:
     - name: Ensure the map specifc configuration files are installed.
       template:
         src: maps.cfg.j2
