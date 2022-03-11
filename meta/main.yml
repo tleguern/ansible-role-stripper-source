@@ -2,6 +2,7 @@
 galaxy_info:
   role_name: stripper_source
   author: Tristan Le Guern
+  namespace: tleguern
   description: Configure the Stripper:Source Sourcemod plugin
   company: Gwern
   license: ISC
