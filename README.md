@@ -8,9 +8,9 @@ Automatic testing is provided using molecule's delegated driver and <https://bui
 
 ## Requirements
 
-An ansible role dedicated to the installation of SteamCMD such as [ansible-steamcmd](https://github.com/tleguern/ansible-steamcmd).
+An ansible role dedicated to the installation of SteamCMD such as [tleguern.steamcmd](https://github.com/tleguern/ansible-steamcmd).
 
-An ansible role dedicated to the installation of Metamod:Source such as [ansible-role-metamod-source](https://github.com/tleguern/ansible-role-metamod-source).
+An ansible role dedicated to the installation of Metamod:Source such as [tleguern.metamod_source](https://github.com/tleguern/ansible-role-metamod-source).
 
 An ansible role dedicated to the installation of _Left4Dead2_, _Day of Defeat: Source_, _Counter-Strike: Source_ or any other game based on the Source engine providing the `Restart source games` handler.
 
@@ -61,7 +61,7 @@ None.
     - role: tleguern.steamcmd
     - role: tleguern.cstrike_source
     - role: tleguern.metamod_source
-    - role: ansible-role-stripper-source
+    - role: tleguern.stripper_source
 ```
 
 ## License
